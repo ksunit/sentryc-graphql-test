@@ -43,14 +43,14 @@ public class SellerInfoServiceImpl implements SellerInfoService {
         return sellerPageableResponseDTO;
     }
 
-    private static SellerPageableResponseDTO getSellerPageableResponseDTO(PageInputDTO page, PageImpl<SellerInfoResponseDTO> pageable, List<SellerInfoResponseDTO> sellerInfoResponseDTOList) {
+    private SellerPageableResponseDTO getSellerPageableResponseDTO(PageInputDTO page, PageImpl<SellerInfoResponseDTO> pageable, List<SellerInfoResponseDTO> sellerInfoResponseDTOList) {
         SellerPageableResponseDTO sellerPageableResponseDTO = new SellerPageableResponseDTO();
         sellerPageableResponseDTO.setData(pageable.getContent());
         sellerPageableResponseDTO.setMeta(new MetaDTO(page.getPage(), page.getSize(), sellerInfoResponseDTOList.size()));
         return sellerPageableResponseDTO;
     }
 
-    private static PageImpl<SellerInfoResponseDTO> getSellerResponsePage(PageInputDTO page, List<SellerInfoResponseDTO> sellerInfoResponseDTOList) {
+    private PageImpl<SellerInfoResponseDTO> getSellerResponsePage(PageInputDTO page, List<SellerInfoResponseDTO> sellerInfoResponseDTOList) {
         int start = page.getPage() * page.getSize();
         int end = Math.min(start + page.getSize(), sellerInfoResponseDTOList.size());
         List<SellerInfoResponseDTO> sellerInfoResponseDTOListPageable = sellerInfoResponseDTOList.subList(start, end);
@@ -58,7 +58,7 @@ public class SellerInfoServiceImpl implements SellerInfoService {
         return pageable;
     }
 
-    private static void sortSellerResponse(SellerSortBy sortBy, List<SellerInfoResponseDTO> sellerInfoResponseDTOList) {
+    private void sortSellerResponse(SellerSortBy sortBy, List<SellerInfoResponseDTO> sellerInfoResponseDTOList) {
         switch (sortBy) {
             case SELLER_INFO_EXTERNAL_ID_ASC -> sellerInfoResponseDTOList.sort(Comparator.comparing(SellerInfoResponseDTO::getExternalId));
             case SELLER_INFO_EXTERNAL_ID_DESC -> sellerInfoResponseDTOList.sort(Comparator.comparing(SellerInfoResponseDTO::getExternalId).reversed());
@@ -69,7 +69,7 @@ public class SellerInfoServiceImpl implements SellerInfoService {
         }
     }
 
-    private static void createSellerInfoResponseDTO(SellerAndMarketPlaceDTO sellerAndMarketPlace, List<Seller> sellersList, List<SellerInfoResponseDTO> sellerInfoResponseDTOList) {
+    private void createSellerInfoResponseDTO(SellerAndMarketPlaceDTO sellerAndMarketPlace, List<Seller> sellersList, List<SellerInfoResponseDTO> sellerInfoResponseDTOList) {
         SellerInfoResponseDTO sellerInfoResponseDTO = new SellerInfoResponseDTO();
         sellerInfoResponseDTO.setSellerName(sellerAndMarketPlace.getName());
         sellerInfoResponseDTO.setExternalId(sellerAndMarketPlace.getExternalId());
@@ -83,7 +83,7 @@ public class SellerInfoServiceImpl implements SellerInfoService {
         sellerInfoResponseDTOList.add(sellerInfoResponseDTO);
     }
 
-    private static void createProducerSellerStateDTO(Seller seller, List<ProducerSellerStateDTO> producerSellerStateDTOList) {
+    private void createProducerSellerStateDTO(Seller seller, List<ProducerSellerStateDTO> producerSellerStateDTOList) {
         ProducerSellerStateDTO producerSellerStateDTO = new ProducerSellerStateDTO();
         producerSellerStateDTO.setSellerId(seller.getSellerInfo().getId().toString());
         producerSellerStateDTO.setSellerState(seller.getState());
@@ -92,7 +92,7 @@ public class SellerInfoServiceImpl implements SellerInfoService {
         producerSellerStateDTOList.add(producerSellerStateDTO);
     }
 
-    private static Specification<Seller> getSellerSpecification(SellerFilterDTO filter) {
+    private Specification<Seller> getSellerSpecification(SellerFilterDTO filter) {
         Specification<Seller> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.isNotBlank(filter.getSearchByName())) {
