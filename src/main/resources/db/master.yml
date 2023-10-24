@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/producer.yml
+  - include:
+      file: db/changelog/marketplace.yml
+  - include:
+      file: db/changelog/seller_info.yml
+  - include:
+      file: db/changelog/seller.yml

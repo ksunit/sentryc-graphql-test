@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-marketplaces-table
+      author: thinkitive
+      changes:
+        - createTable:
+            tableName: marketplaces
+            columns:
+              - column:
+                  name: id
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: marketplacesPK
+              - column:
+                  name: description
+                  type: varchar(255)
+  - changeSet:
+      id: insert-marketplaces-data
+      author: thinkitive
+      changes:
+        - sqlFile:
+            path: db/data/insert_marketplaces_data.sql
